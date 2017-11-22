@@ -1,26 +1,41 @@
 <template>
    <div>
+      <!--头部导航-->
       <vheader></vheader>
-      <div class="tab" ref="tab">
-         <div class="bar" @click="show($event)">
-            <span>系统管理</span>
-            <i class="el-icon-arrow-right" v-show="iShow"></i><i class="el-icon-arrow-down" v-show="!iShow"></i>
+      <!--侧边栏-->
+      <div :class="{tab:true,tabWidth:!topIcon}" ref="tab">
+         <!--收起图标-->
+         <div :class="{topBar:true}" v-show="topIcon">
+            <i class="iconfont icon-collapse-left1" @click="closeBar"></i>
          </div>
-         <div v-show="slide">
-            <router-link class="link" to="//page1" @click.native="link($event)">页面一</router-link>
-            <router-link class="link" to="//page2" @click.native="link($event)">页面二</router-link>
-            <router-link class="link" to="//page3" @click.native="link($event)">系统注册</router-link>
-            <router-link class="link" to="//page4" @click.native="link($event)">页面三</router-link>
+         <div :class="{topBar1:true}" v-show="!topIcon">
+            <i class="iconfont icon-shouqi2" @click="closeBar"></i>
          </div>
+         <!--一级侧边栏-->
+         <div class="bar" @click="iShow=!iShow">
+            <span><i class="iconfont icon-xitong" v-show="topIcon"></i><i class="iconfont icon-xitong" title="Example" v-show="!topIcon"></i>Example
+            </span><i class="el-icon-arrow-right" v-show="!iShow"></i><i class="el-icon-arrow-down" v-show="iShow"></i>
+         </div>
+         <!--二级侧边栏-->
+         <transition enter-active-class="zoomInLeft" leave-active-class="zoomOutRight">
+            <div v-show="iShow">
+               <router-link :class="{getColor:1===limit}" to="//page1" @click.native="link(1)">Table</router-link>
+               <router-link :class="{getColor:2===limit}" to="//page2" @click.native="link(2)">页面二</router-link>
+               <router-link :class="{getColor:3===limit}" to="//page3" @click.native="link(3)">系统注册</router-link>
+               <router-link :class="{getColor:4===limit}" to="//page4" @click.native="link(4)">页面三</router-link>
+            </div>
+         </transition>
       </div>
-      <div class="bread">
+      <!--面包屑导航-->
+      <div :class="{bread:true,mainWidth:main_width}">
          <el-breadcrumb separator="/">
             <!--<el-breadcrumb-item :to="{ path: '/main/page1' }">{{title}}</el-breadcrumb-item>-->
             <el-breadcrumb-item>{{title}}</el-breadcrumb-item>
             <el-breadcrumb-item>{{title1}}</el-breadcrumb-item>
          </el-breadcrumb>
       </div>
-      <div class="main" ref="main">
+      <!--内容区-->
+      <div :class="{main:true,mainWidth:main_width}" ref="main">
          <keep-alive>
             <router-view></router-view>
          </keep-alive>
@@ -35,10 +50,12 @@
       name: 'HelloWorld',
       data () {
          return {
-            title: '系统管理',
+            title: 'Example',
             title1: '',
-            slide: false,
-            iShow: true
+            iShow: false,
+            topIcon: true,
+            limit: 0,
+            main_width: false
          }
       },
       computed: {},
@@ -47,13 +64,19 @@
          this.$refs.main.style.height = window.innerHeight - 95 + 'px';
       },
       methods: {
-         show(e){
-            this.slide = !this.slide;
-            this.title = e.target.innerHTML;
-            this.iShow = !this.iShow
+         closeBar(){
+            this.topIcon = !this.topIcon;
+            this.main_width = !this.main_width
          },
-         link(e){
-            this.title1 = e.target.innerHTML;
+//            show(e){
+//                this.slide = !this.slide;
+//                this.iShow = !this.iShow
+////                this.title = e.target.innerHTML;
+//            },
+         link(index){
+            this.limit = index;
+//            this.title1 = e.target.innerHTML;
+//            e.target.style.backgroundColor = "#13a1ee";
          }
       },
       components: {
@@ -70,20 +93,39 @@
       position: fixed;
       top: 60px;
       left: 0;
-      padding-top: 35px;
+      .topBar {
+         width: 180px;
+         height: 40px;
+         line-height: 40px;
+         color: #fff;
+         padding-left: 75px;
+      }
+      .topBar1 {
+         width: 180px;
+         height: 40px;
+         line-height: 35px;
+         color: #fff;
+         padding-left: 15px;
+      }
       .bar {
          background: #35404d;
          margin-bottom: 1px;
+         height: 40px;
+         overflow: hidden;
          span {
             display: inline-block;
-            width: 155px;
-            height: 35px;
-            line-height: 35px;
+            width: 160px;
+            height: 40px;
+            line-height: 40px;
             color: #fff;
-            text-align: center;
+            text-align: left;
             text-decoration: none;
             cursor: default;
             user-select: none;
+            .icon-xitong {
+               margin-left: 15px;
+               margin-right: 10px;
+            }
          }
          i {
             color: #fff;
@@ -91,21 +133,26 @@
       }
       a {
          display: inline-block;
-         width: 180px;
-         height: 35px;
-         line-height: 35px;
+         width: 138px;
+         padding-left: 42px;
+         height: 40px;
+         line-height: 40px;
          font-size: 14px;
          background: #35404d;
          color: #fff;
          margin-bottom: 1px;
-         text-align: center;
+         text-align: left;
          text-decoration: none;
          user-select: none;
       }
-      a:focus {
+      .getColor {
          background: #13a1ee;
-         text-decoration: none;
       }
+   }
+
+   .tabWidth {
+      width: 42px;
+      overflow: hidden;
    }
 
    .bread {
@@ -123,4 +170,9 @@
    .main {
       margin-left: 180px;
    }
+
+   .mainWidth {
+      margin-left: 42px;
+   }
 </style>
+<!--本页面BUG记录：侧边栏的点击事件， 当点击右侧，面包屑导航文字会出现bug-->
