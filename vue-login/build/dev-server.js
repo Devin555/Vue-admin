@@ -29,25 +29,33 @@ var appData = require('../data.json')
 var seller = appData.seller
 var goods = appData.goods
 var ratings = appData.ratings
+var user = appData.user
 //2
 var apiRoutes = express.Router()
+
+apiRoutes.get('/user',function (req,res) {
+  res.json({
+    errno:0,
+    user:user
+  })
+})
 //配置请求路由和响应
 apiRoutes.get('/seller',function (req,res) {
   res.json({
     errno:0,
-    data:seller
+    seller:seller
   })
 })
 apiRoutes.get('/goods',function (req,res) {
   res.json({
     errno:0,
-    data:goods
+    goods:goods
   })
 })
 apiRoutes.get('/ratings',function (req,res) {
   res.json({
     errno:0,
-    data:ratings
+    ratings:ratings
   })
 })
 //暴露api接口

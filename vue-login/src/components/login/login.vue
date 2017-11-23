@@ -1,90 +1,80 @@
 <template>
-   <div class="logintmpl">
-      <div class="login">
-         <el-form ref="form" label-width="60px">
-            <el-form-item label="姓名">
-               <el-input v-model="username"></el-input>
-            </el-form-item>
-            <el-form-item label="密码">
-               <el-input v-model="password"></el-input>
-            </el-form-item>
-            <el-form-item>
-               <el-button type="primary" @click="confirm" size="medium">登 录</el-button>
-            </el-form-item>
-         </el-form>
-      </div>
-   </div>
+	<div class="logintmpl">
+		<div class="login">
+			<el-form ref="form" label-width="60px">
+				<el-form-item label="姓名">
+					<el-input v-model="username"></el-input>
+				</el-form-item>
+				<el-form-item label="密码">
+					<el-input v-model="password"></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" style="width: 100%" @click="confirm" size="medium">登 录</el-button>
+				</el-form-item>
+				<div class="tip">账号：F1333553 密码：123456</div>
+			</el-form>
+		</div>
+	</div>
 </template>
 
 <script>
-   let Base64 = require('js-base64').Base64;
-   import {mapGetters} from 'vuex'
-   export default {
-      name: 'HelloWorld',
-      data () {
-         return {
-            username: '',
-            password: '',
-            keyPassword: '',
-            token: ''
-         }
-      },
-      computed: {},
-      methods: {
-         getUserInfo(){
-            this.$http.get('http://10.129.4.97:9001/api/ac/check_token',
-               {
-                  headers: {"X-CSRFToken": this.token}
-               }
-            ).then((res)=> {
-               window.localStorage.setItem('TOKEN', this.token);
-               this.$router.push({path: '/'})
-            }).catch((err)=> {
-               alert(err.data)
-            });
-         },
-         confirm(){
-            this.keyPassword = Base64.encode(this.password);
-            this.$http.post('http://10.129.4.97:9001/api/ac/login',
-               {
-                  'username': this.username,
-                  'password': this.keyPassword,
-                  'PID': 17072501
-               },
-            ).then((res)=> {
-               this.token = "TOKEN=" + res.data.TOKEN + ";PID=17072501";
-               this.getUserInfo();
-            }).catch((err)=> {
-               alert(err.data)
-            });
-         }
-      },
-   }
+	let Base64 = require('js-base64').Base64;
+	import {mapGetters} from 'vuex'
+	export default {
+		name: 'HelloWorld',
+		data () {
+			return {
+				username: '',
+				password: '',
+				keyPassword: '',
+				token: 'asdfasdfaskjdf23j423jasjdfjasdfjaskdfjasdklf'
+			}
+		},
+		computed: {},
+		methods: {
+			confirm(){
+				this.$http.get("http://localhost:8080/api/user"
+				).then((res)=> {
+					if (this.username == 'F1333553' && this.password == 123456) {
+						window.localStorage.setItem("TOKEN", this.token);
+						this.$router.push({path: '/'})
+					} else {
+						alert("登录失败")
+					}
+				}).catch((err)=> {
+					alert(err)
+				});
+			}
+		},
+	}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" rel="stylesheet/less">
-   .logintmpl {
-      height: 500px;
-      background-size: 100%;
-      background: url("../../../static/img/login01.jpg") repeat;
-   }
+	.logintmpl {
+		background: #2d3a4b;
+		height: 100%;
+	}
 
-   .login {
-      border: 1px solid grey;
-      border-radius: 4px;
-      position: absolute;
-      width: 356px;
-      height: 200px;
-      top: 45%;
-      left: 35%;
-      margin-top: -150px;
-      margin-left: -174px;
-      padding: 50px 15px 0;
-      .el-form-item__label {
-         text-align: center;
-         font-weight: 600;
-         font-size: 15px;
-      }
-   }
+	.login {
+		border: 1px solid grey;
+		border-radius: 4px;
+		position: absolute;
+		width: 500px;
+		height: 240px;
+		top: 50%;
+		left: 50%;
+		margin-top: -160px;
+		margin-left: -250px;
+		padding: 50px 15px 0;
+		.el-form-item__label {
+			text-align: center;
+			font-weight: 600;
+			font-size: 15px;
+		}
+		.tip{
+			color: #ccc;
+			padding-left: 57px;
+		}
+	}
 </style>
