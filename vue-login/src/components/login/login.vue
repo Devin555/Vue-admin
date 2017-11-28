@@ -1,5 +1,5 @@
 <template>
-	<div class="logintmpl">
+	<div class="logintmpl" ref="logintmpl">
 		<div class="login">
 			<el-form ref="form" label-width="60px">
 				<el-form-item label="姓名">
@@ -30,12 +30,15 @@
 				token: 'asdfasdfaskjdf23j423jasjdfjasdfjaskdfjasdklf'
 			}
 		},
+		mounted(){
+			this.$refs.logintmpl.style.height = window.innerHeight + 'px';
+		},
 		computed: {},
 		methods: {
 			confirm(){
 				this.$http.get("http://localhost:8080/api/user"
 				).then((res)=> {
-					if (this.username == 'F1333553' && this.password == 123456) {
+					if (this.username == res.data.user.username && this.password == res.data.user.password) {
 						window.localStorage.setItem("TOKEN", this.token);
 						this.$router.push({path: '/'})
 					} else {
@@ -53,7 +56,6 @@
 <style lang="less" rel="stylesheet/less">
 	.logintmpl {
 		background: #2d3a4b;
-		height: 100%;
 	}
 
 	.login {
@@ -72,7 +74,7 @@
 			font-weight: 600;
 			font-size: 15px;
 		}
-		.tip{
+		.tip {
 			color: #ccc;
 			padding-left: 57px;
 		}
