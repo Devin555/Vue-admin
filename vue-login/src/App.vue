@@ -20,5 +20,7 @@
 </script>
 
 <style lang="less" rel="stylesheet/less" scoped>
-
+   #app{
+      height: 100%;
+   }
 </style>

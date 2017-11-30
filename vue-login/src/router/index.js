@@ -10,6 +10,7 @@ import Excel from '../components/excel/export_excel.vue'
 import Slect_excel from '../components/excel/export_selectexcel.vue'
 import UnloadExcel from '../components/excel/unloadExcel.vue'
 import Zip from '../components/zip/zip.vue'
+import User from '../components/userInfo/userInfo.vue'
 
 Vue.use(Router);
 
@@ -35,6 +36,10 @@ export default new Router({
                 {path: '//unload_excel', component: UnloadExcel},
                 {path: '//zip', component: Zip}
             ]
+        },
+        {
+            path: '/user',
+            component: User
         }
     ]
 })

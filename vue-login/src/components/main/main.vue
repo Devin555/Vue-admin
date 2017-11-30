@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="app" ref="app">
 		<!--头部导航-->
 		<vheader></vheader>
 		<!--侧边栏-->
@@ -189,8 +189,8 @@
 		},
 		computed: {},
 		mounted(){
-			this.$refs.tab.style.height = window.innerHeight - 60 + 'px';
-			this.$refs.main.style.height = window.innerHeight - 95 + 'px';
+//			this.$refs.tab.style.height = 100% - 60 + 'px';
+//			this.$refs.main.style.height = window.innerHeight - 95 + 'px';
 		},
 		methods: {
 			closeBar(){
@@ -223,11 +223,15 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" rel="stylesheet/less" scoped>
+	.app{
+		height: 100%;
+	}
 	.tab {
 		width: 180px;
+		height: 100%;
 		background: #2a3542;
 		position: fixed;
-		top: 60px;
+		top: 54px;
 		left: 0;
 		.topBar {
 			width: 180px;
@@ -294,7 +298,6 @@
 	.exampleSecond {
 		width: 180px;
 		position: absolute;
-		/*top: 100px;*/
 		left: 45px;
 		z-index: 9999;
 		background: #2a3542;
@@ -345,11 +348,10 @@
 	}
 
 	.bread {
-		margin-top: 60px;
 		margin-left: 180px;
+		padding-top: 54px;
 		height: 35px;
-		border-bottom: 1px solid #ccc;
-		box-sizing: border-box;
+		background: #ccc;
 		padding-left: 10px;
 		div {
 			line-height: 35px;
